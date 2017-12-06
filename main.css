@@ -37,6 +37,8 @@ button {
   height: 30px;
   border-radius: 15px;
   outline: none;
+  font-weight: lighter;
+
 }
 
 input::placeholder {
@@ -49,19 +51,31 @@ button:hover {
 }
 
 .guessOutput {
-  font-size: 96px;
+  font-size: 128px;
   color: #ED458B;
-  height: 100px;
-  margin-top: 20px;
+  height: 150px;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  padding-bottom: 30px;
 }
 
 .feedback1,
 .feedback2 {
-  height: 50px;
-  width: 50%
-  margin-top: 20px;
+  height: 20px;
+  font-size: 16px;
+}
+
+.feedback1 {
+  margin-top: 40px;
+  margin-bottom: 0px;
+}
+
+.feedback2 {
+  margin-bottom: 40px;
+  margin-top: 0px;
 }
 
 .resetButton {
   width: 50%;
+  margin-top: 0px;
 }

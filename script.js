@@ -7,6 +7,9 @@ var guessButton = document.querySelector('.guessButton');
 var clearButton = document.querySelector('.clearButton');
 var resetButton = document.querySelector('.resetButton');
 var allButtons = document.querySelector('button');
+var feedback1 = document.querySelector('.feedback1');
+var guessOutput = document.querySelector('.guessOutput');
+var feedback2 = document.querySelector('.feedback2');
 
 disableButtons();
 displayRange();
@@ -37,13 +40,13 @@ function randomNum(){
 function compare(randomNumber, guessInput){
   if (guessInput < randomNumber){
     console.log('That is too low');
-    document.querySelector('.feedback2').innerText = 'That is too low';
+    feedback2.innerText = 'That is too low';
   } else if (guessInput > randomNumber){
     console.log('That is too high');
-    document.querySelector('.feedback2').innerText = 'That is too high';
+    feedback2.innerText = 'That is too high';
   } else {
     console.log('BOOM!');
-    document.querySelector('.feedback2').innerText = 'BOOM!';
+    feedback2.innerText = 'BOOM!';
   }
 }
 
@@ -62,57 +65,51 @@ function check(){
 function getGuess(){
   var guess = parseInt(guessInput.value);
   console.log(guess);
-  document.querySelector('.feedback1').innerText = 'Your last guess was';
-  document.querySelector('.guessOutput').innerText = guess;
+  feedback1.innerText = 'Your last guess was';
+  guessOutput.innerText = guess;
 }
 
 function clear(){
-  document.getElementById('numberInput').value = '';
+  guessInput.value = '';
 }
 
 function reset(){
   var randomNumber = randomNum();
-  document.querySelector('.feedback1').innerText = '';
-  document.querySelector('.guessOutput').innerText = '';
-  document.querySelector('.feedback2').innerText = '';
+  displayRange();
+  guessOutput.innerText = '';
+  feedback2.innerText = '';
   clear();
   disableButtons();
 }
 
 function disableButtons(){
-  document.querySelector('.clearButton').disabled = true;
-  document.getElementById('clearButton').style.backgroundColor = '#D0D2D3';
-  document.querySelector('.resetButton').disabled = true;
-  document.getElementById('resetButton').style.backgroundColor = '#D0D2D3';
+  clearButton.disabled = true;
+  clearButton.style.backgroundColor = '#D0D2D3';
+  resetButton.disabled = true;
+  resetButton.style.backgroundColor = '#D0D2D3';
 }
 
 function enableButtons(){
-  document.querySelector('.clearButton').disabled = false;
-  document.getElementById('clearButton').style.backgroundColor = '#929497';
-  document.querySelector('.resetButton').disabled = false;
-  document.getElementById('resetButton').style.backgroundColor = '#929497';
+  clearButton.disabled = false;
+  clearButton.style.backgroundColor = '#929497';
+  resetButton.disabled = false;
+  resetButton.style.backgroundColor = '#929497';
 }
 
 function invalidInput(){
   console.log('Please enter a number between 1 and 100!');
-  document.querySelector('.feedback1').innerText = 'Please enter a number between 1 and 100!';
-  document.querySelector('.guessOutput').innerText = '';
-  document.querySelector('.feedback2').innerText = '';
+  feedback1.innerText = 'Hey!!! Stop being difficult!';
+  feedback2.innerText = 'Please enter a number between ' + min + ' and ' + max;
+  guessOutput.innerText = '';
 }
-
-// function changeMin(){
-//   min = document.querySelector('');
-//   return min;
-// }
-
-// function changeMax(){
-//   max = document.querySelector('');
-//   return max;
-// }
 
 function displayRange(){
-  document.querySelector('.feedback1').innerText = 'Please enter a number between ' + min + ' and ' + max;
+  feedback1.innerText = 'Please enter a number between ' + min + ' and ' + max;
+  guessOutput.innerText = '';
+  feedback2.innerText = '';
 }
+
+// function guessToInt
 
 
 
