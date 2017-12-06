@@ -11,12 +11,16 @@
       <h1>Number <span>Guesser</span></h1>
     </header>
     <main>
-      <form>
+      <form autocomplete="off">
+        <div class="rangeArea">
         <input type="text" name="minInput" id="minInput" placeholder="Enter minimum">
         <input type="text" name="maxInput" id="maxInput" placeholder="Enter maximum">
         <br>
         <button class="rangeButton">Enter range</button>
+        <p>Enter a range of numbers you would like to guess between!</p>
         <br>
+        </div>
+        <div  class="guessArea">
         <input type="text" name="numberInput" id="numberInput" placeholder="Enter your guess">
         <br>
         <button class="guessButton">Guess</button>
@@ -26,6 +30,7 @@
       <p class="guessOutput"></p>
       <p class="feedback2"></p>
       <button class="resetButton" id="resetButton" disabled="true">Reset</button>
+      </div>
       </form>
     </main>
   </body>
