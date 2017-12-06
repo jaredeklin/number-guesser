@@ -13,11 +13,12 @@ var guessOutput = document.querySelector('.guessOutput');
 var feedback2 = document.querySelector('.feedback2');
 var rangeArea = document.querySelector('.rangeArea');
 var guessArea = document.querySelector('.guessArea');
+var playAgainButton = document.querySelector('.play-again-button');
 
 disableButtons();
 displayRange();
 hideGuessArea();
-
+hidePlayAgainButton();
 // setFocus();
 
 rangeButton.addEventListener('click', function(e){
@@ -50,7 +51,7 @@ resetButton.addEventListener('click', function(){
 });
 
 function randomNum(){
-  randomNumber = Math.floor((Math.random() * max) + min);
+  randomNumber = Math.floor((Math.random() * (max - min) + min));
   console.log('the random # is ' + randomNumber);
   return randomNumber;
 }
@@ -120,7 +121,8 @@ function reset() {
   displayRange();
   clear();
   disableButtons();
-  setFocus();
+  hideGuessArea();
+  // setFocus();
 }
 
 function disableButtons() {
@@ -128,6 +130,7 @@ function disableButtons() {
   clearButton.style.backgroundColor = '#D0D2D3';
   resetButton.disabled = true;
   resetButton.style.backgroundColor = '#D0D2D3';
+
 }
 
 function enableButtons() {
@@ -170,4 +173,6 @@ function displayGuessArea () {
   guessArea.style.display = 'block';
 }
 
-
+function hidePlayAgainButton () {
+  playAgainButton.style.display ='none';
+}
