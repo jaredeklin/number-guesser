@@ -7,9 +7,18 @@ var guessButton = document.querySelector('.guessButton');
 var clearButton = document.querySelector('.clearButton');
 var resetButton = document.querySelector('.resetButton');
 var allButtons = document.querySelector('button');
+var rangeButton = document.querySelector('.rangeButton');
 
 disableButtons();
 displayRange();
+
+rangeButton.addEventListener('click', function(e){
+  e.preventDefault();
+  changeMin();
+  changeMax();
+  displayRange();
+  randomNum();
+});
 
 guessButton.addEventListener('click', function(e){
   e.preventDefault();
@@ -26,6 +35,7 @@ clearButton.addEventListener('click', function(e){
 
 resetButton.addEventListener('click', function(){
   reset();
+  resetRange();
 });
 
 function randomNum(){
@@ -52,7 +62,7 @@ function check(){
   if (isNaN(guess) === true){ 
     console.log('input is invalid');
     invalidInput();
-  } else if (guess > max || guess < min){
+  } else if (guess > max || guess < min) {
     invalidInput();
   } else {
     compare(randomNumber, guess);
@@ -95,25 +105,35 @@ function enableButtons(){
 
 function invalidInput(){
   console.log('Please enter a number between 1 and 100!');
-  document.querySelector('.feedback1').innerText = 'Please enter a number between 1 and 100!';
+  document.querySelector('.feedback1').innerText = 'Please enter a number between ' + min + ' and ' + max + '!';
   document.querySelector('.guessOutput').innerText = '';
   document.querySelector('.feedback2').innerText = '';
 }
 
-// function changeMin(){
-//   min = document.querySelector('');
-//   return min;
-// }
-
-// function changeMax(){
-//   max = document.querySelector('');
-//   return max;
-// }
-
-function displayRange(){
-  document.querySelector('.feedback1').innerText = 'Please enter a number between ' + min + ' and ' + max;
+function changeMin(){
+  min = document.querySelector('#minInput');
+  min = parseInt(min.value);
+  console.log('min is ' + min);
+  return min;
 }
 
+function changeMax(){
+  max = document.querySelector('#maxInput');
+  max = parseInt(max.value);
+  console.log('max is ' + max);
+  return max;
+}
+
+function displayRange(){
+  document.querySelector('.feedback1').innerText = 'Please enter a number between ' + min + ' and ' + max + '!';
+}
+
+function resetRange(){
+  min = 1;
+  max = 100;
+  document.getElementById('minInput').value = '';
+  document.getElementById('maxInput').value = '';
+  console.log('min ' + min + ' max ' + 
 
 
 
