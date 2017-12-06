@@ -8,9 +8,17 @@ var clearButton = document.querySelector('.clearButton');
 var resetButton = document.querySelector('.resetButton');
 var allButtons = document.querySelector('button');
 var rangeButton = document.querySelector('.rangeButton');
+var feedback1 = document.querySelector('.feedback1');
+var guessOutput = document.querySelector('.guessOutput');
+var feedback2 = document.querySelector('.feedback2');
+var rangeArea = document.querySelector('.rangeArea');
+var guessArea = document.querySelector('.guessArea');
 
 disableButtons();
 displayRange();
+hideGuessArea();
+
+// setFocus();
 
 rangeButton.addEventListener('click', function(e){
   e.preventDefault();
@@ -18,6 +26,8 @@ rangeButton.addEventListener('click', function(e){
   changeMax();
   displayRange();
   randomNum();
+  hideRangeInputs();
+  displayGuessArea();
 });
 
 guessButton.addEventListener('click', function(e){
@@ -36,6 +46,7 @@ clearButton.addEventListener('click', function(e){
 resetButton.addEventListener('click', function(){
   reset();
   resetRange();
+  displayRangeInputs();
 });
 
 function randomNum(){
@@ -69,63 +80,18 @@ function check(){
   }
 }
 
-function getGuess(){
-  var guess = parseInt(guessInput.value);
-  console.log(guess);
-  document.querySelector('.feedback1').innerText = 'Your last guess was';
-  document.querySelector('.guessOutput').innerText = guess;
-}
-
-function clear(){
-  document.getElementById('numberInput').value = '';
-}
-
-function reset(){
-  var randomNumber = randomNum();
-  document.querySelector('.feedback1').innerText = '';
-  document.querySelector('.guessOutput').innerText = '';
-  document.querySelector('.feedback2').innerText = '';
-  clear();
-  disableButtons();
-}
-
-function disableButtons(){
-  document.querySelector('.clearButton').disabled = true;
-  document.getElementById('clearButton').style.backgroundColor = '#D0D2D3';
-  document.querySelector('.resetButton').disabled = true;
-  document.getElementById('resetButton').style.backgroundColor = '#D0D2D3';
-}
-
-function enableButtons(){
-  document.querySelector('.clearButton').disabled = false;
-  document.getElementById('clearButton').style.backgroundColor = '#929497';
-  document.querySelector('.resetButton').disabled = false;
-  document.getElementById('resetButton').style.backgroundColor = '#929497';
-}
-
-function invalidInput(){
-  console.log('Please enter a number between 1 and 100!');
-  document.querySelector('.feedback1').innerText = 'Please enter a number between ' + min + ' and ' + max + '!';
-  document.querySelector('.guessOutput').innerText = '';
-  document.querySelector('.feedback2').innerText = '';
-}
-
 function changeMin(){
   min = document.querySelector('#minInput');
   min = parseInt(min.value);
-  console.log('min is ' + min);
+  console.log('new min is ' + min);
   return min;
 }
 
 function changeMax(){
   max = document.querySelector('#maxInput');
   max = parseInt(max.value);
-  console.log('max is ' + max);
+  console.log('new max is ' + max);
   return max;
-}
-
-function displayRange(){
-  document.querySelector('.feedback1').innerText = 'Please enter a number between ' + min + ' and ' + max + '!';
 }
 
 function resetRange(){
@@ -133,11 +99,75 @@ function resetRange(){
   max = 100;
   document.getElementById('minInput').value = '';
   document.getElementById('maxInput').value = '';
-  console.log('min ' + min + ' max ' + 
+  console.log('min ' + min + ' max ' + max);
+}
 
 
+function getGuess() {
+  var guess = parseInt(guessInput.value);
+  console.log(guess);
+  feedback1.innerText = 'Your last guess was';
+  guessOutput.innerText = guess;
+}
 
+function clear() {
+  guessInput.value = '';
+  setFocus();
+}
 
+function reset() {
+  var randomNumber = randomNum();
+  displayRange();
+  clear();
+  disableButtons();
+  setFocus();
+}
 
+function disableButtons() {
+  clearButton.disabled = true;
+  clearButton.style.backgroundColor = '#D0D2D3';
+  resetButton.disabled = true;
+  resetButton.style.backgroundColor = '#D0D2D3';
+}
+
+function enableButtons() {
+  clearButton.disabled = false;
+  clearButton.style.backgroundColor = '#929497';
+  resetButton.disabled = false;
+  resetButton.style.backgroundColor = '#929497';
+}
+
+function invalidInput() {
+  console.log('Please enter a number between 1 and 100!');
+  feedback1.innerText = 'Stop being difficult!!!! Follow directions for once!';
+  feedback2.innerText = 'Please enter a number between ' + min + ' and ' + max;
+  guessOutput.innerText = '';
+}
+
+function displayRange() {
+  feedback1.innerText = 'Please enter a number between ' + min + ' and ' + max;
+  guessOutput.innerText = '';
+  feedback2.innerText = '';
+}
+
+function setFocus() {
+  guessInput.focus();
+}
+
+function hideRangeInputs() {
+  rangeArea.style.display = 'none';
+}
+
+function displayRangeInputs() {
+  rangeArea.style.display = 'block';
+}
+
+function hideGuessArea () {
+  guessArea.style.display = 'none';
+}
+
+function displayGuessArea () {
+  guessArea.style.display = 'block';
+}
 
 
