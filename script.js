@@ -110,12 +110,6 @@ function displayRange() {
   feedback2.innerText = '';
 }
 
-// function guessToInt() {
-//   var guess = parseInt(guessInput.value);
-//   console.log(guess);
-//   return guess;
-// }
-
 function setFocus() {
   guessInput.focus();
 }
