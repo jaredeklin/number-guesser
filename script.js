@@ -22,6 +22,7 @@ disableButtons();
 displayRange();
 hideGuessArea();
 hidePlayAgainButton();
+setFocusOnMin();
 
 
 rangeButton.addEventListener('click', function(e) {
@@ -29,13 +30,14 @@ rangeButton.addEventListener('click', function(e) {
   checkRange();
   disableButtons();
   rangeButton.disabled = 'true';
+  setFocus();
 });
 
 guessButton.addEventListener('click', function(e) {
   e.preventDefault();
-  getGuess();
-  enableButtons();
+  getGuess();              
   check();
+  setFocus();
 });
 
 clearButton.addEventListener('click', function(e) {
@@ -50,14 +52,12 @@ resetButton.addEventListener('click', function(e) {
   resetRange();
   displayRangeInputs();
   disableButtons();
+  setFocusOnMin();
 });
 
 playAgainButton.addEventListener('click', function(e) {
   e.preventDefault();
   buttonArea.style.visibility = 'visible';
-  // guessButton.style.visibility = 'visible';
-  // clearButton.style.visibility = 'visible';
-  // guessInput.style.display = 'block';
   playAgain();
   hidePlayAgainButton();
 });
@@ -78,13 +78,10 @@ function randomNum() {
 
 function compare(randomNumber, guessInput) {
   if (guessInput < randomNumber){
-    // console.log('That is too low');
     feedback2.innerText = 'That is too low';
   } else if (guessInput > randomNumber){
-    // console.log('That is too high');
     feedback2.innerText = 'That is too high';
   } else {
-    // console.log('BOOM!');
     min = (min - 10);
     max = (max + 10);
     feedback1.innerText = 'Level up!!!!';
@@ -111,16 +108,12 @@ function checkRange() {
   var newMin = parseInt(minInput.value);
   var newMax = parseInt(maxInput.value);
   if (isNaN(newMin) === true || isNaN(newMax) === true) {
-    // console.log('input is invalid');
     rangeFeedback.innerText = "invalid input! Please enter a range of numbers you would like to guess between!"
   } else if (newMin > newMax) {
-    // console.log("min > max");
     rangeFeedback.innerText = "invalid input! The minimum number must be smaller than the max. Please enter a range of numbers you would like to guess between!"
   } else if (newMin === newMax) {
-    // console.log("min equals max");
     rangeFeedback.innerText = "invalid input! The minimum and maximum can not be equal. Please enter a range of numbers you would like to guess between!"
   } else {
-    // console.log('working')
     changeMin();
     changeMax();
     randomNum();
@@ -133,13 +126,11 @@ function checkRange() {
 
 function changeMin() {
   min = parseInt(minInput.value);
-  // console.log('new min is ' + min);
   return min;
 }
 
 function changeMax() {
   max = parseInt(maxInput.value);
-  // console.log('new max is ' + max);
   return max;
 }
 
@@ -148,12 +139,10 @@ function resetRange() {
   max = 100;
   document.getElementById('minInput').value = '';
   document.getElementById('maxInput').value = '';
-  //console.log('min ' + min + ' max ' + max);
 }
 
 function getGuess() {
   var guess = parseInt(guessInput.value);
-  // console.log(guess);
   feedback1.innerText = 'Your last guess was';
   guessOutput.innerText = guess;
 }
@@ -191,18 +180,22 @@ function enableButtons() {
 
 function invalidInput() {
   feedback1.innerText = 'Stop being difficult!!!! Follow directions for once!';
-  feedback2.innerText = 'Please enter a number between ' + min + ' and ' + max;
+  feedback2.innerText = 'Please guess a number between ' + min + ' and ' + max;
   guessOutput.innerText = '';
 }
 
 function displayRange() {
-  feedback1.innerText = 'Please enter a number between ' + min + ' and ' + max;
+  feedback1.innerText = 'Please guess a number between ' + min + ' and ' + max;
   guessOutput.innerText = '';
   feedback2.innerText = '';
 }
 
 function setFocus() {
   guessInput.focus();
+}
+
+function setFocusOnMin() {
+  minInput.focus();
 }
 
 function hideRangeInputs() {
@@ -230,7 +223,6 @@ function showResetButton () {
 }
 
 function playAgain () {
-  // console.log("the new min and max are: " + min + " and " + max);
   randomNum();
   clear();
   displayRange();
