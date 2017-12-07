@@ -44,7 +44,7 @@ input::placeholder {
   font-size: 18px;
 }
 
-button:hover {
+button:hover:enabled {
   background-color: #EB008B;
 }
 

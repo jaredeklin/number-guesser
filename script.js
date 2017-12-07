@@ -8,7 +8,6 @@ var guessInput = document.getElementById('numberInput');
 var guessButton = document.querySelector('.guessButton');
 var clearButton = document.querySelector('.clearButton');
 var resetButton = document.querySelector('.resetButton');
-var allButtons = document.querySelector('button');
 var rangeButton = document.querySelector('.rangeButton');
 var rangeFeedback = document.querySelector('.rangeFeedback');
 var feedback1 = document.querySelector('.feedback1');
@@ -17,6 +16,7 @@ var feedback2 = document.querySelector('.feedback2');
 var rangeArea = document.querySelector('.rangeArea');
 var guessArea = document.querySelector('.guessArea');
 var playAgainButton = document.querySelector('.play-again-button');
+var buttonArea = document.querySelector('.button-area');
 
 disableButtons();
 displayRange();
@@ -28,6 +28,7 @@ rangeButton.addEventListener('click', function(e) {
   e.preventDefault();
   checkRange();
   disableButtons();
+  rangeButton.disabled = 'true';
 });
 
 guessButton.addEventListener('click', function(e) {
@@ -43,7 +44,8 @@ clearButton.addEventListener('click', function(e) {
   disableButtons();
 });
 
-resetButton.addEventListener('click', function() {
+resetButton.addEventListener('click', function(e) {
+  e.preventDefault();
   reset();
   resetRange();
   displayRangeInputs();
@@ -52,19 +54,21 @@ resetButton.addEventListener('click', function() {
 
 playAgainButton.addEventListener('click', function(e) {
   e.preventDefault();
+  buttonArea.style.visibility = 'visible';
+  // guessButton.style.visibility = 'visible';
+  // clearButton.style.visibility = 'visible';
+  // guessInput.style.display = 'block';
   playAgain();
   hidePlayAgainButton();
-  guessButton.style.visibility = 'visible';
-  clearButton.style.visibility = 'visible';
-})
+});
 
 minInput.addEventListener('keyup', function() {
-  enableButtons();
-})
+  rangeButton.disabled = false;
+});
 
 guessInput.addEventListener('keyup', function() {
   enableButtons();
-})
+});
 
 function randomNum() {
   randomNumber = Math.floor((Math.random() * (max - min) + min));
@@ -74,22 +78,20 @@ function randomNum() {
 
 function compare(randomNumber, guessInput) {
   if (guessInput < randomNumber){
-    console.log('That is too low');
+    // console.log('That is too low');
     feedback2.innerText = 'That is too low';
   } else if (guessInput > randomNumber){
-    console.log('That is too high');
+    // console.log('That is too high');
     feedback2.innerText = 'That is too high';
   } else {
-    console.log('BOOM!');
+    // console.log('BOOM!');
     min = (min - 10);
     max = (max + 10);
     feedback1.innerText = 'Level up!!!!';
     feedback2.innerText = 'Your new range is between ' + min + ' and ' + max;
     playAgainButton.style.display = "inline-block";
     resetButton.style.display = 'none';
-    // guessInput.style.visibility = 'hidden';
-    guessButton.style.visibility = 'hidden';
-    clearButton.style.visibility = 'hidden';
+    buttonArea.style.visibility = 'hidden';
   }
 }
 
@@ -109,34 +111,35 @@ function checkRange() {
   var newMin = parseInt(minInput.value);
   var newMax = parseInt(maxInput.value);
   if (isNaN(newMin) === true || isNaN(newMax) === true) {
-    console.log('input is invalid');
+    // console.log('input is invalid');
     rangeFeedback.innerText = "invalid input! Please enter a range of numbers you would like to guess between!"
   } else if (newMin > newMax) {
-    console.log("min > max");
+    // console.log("min > max");
     rangeFeedback.innerText = "invalid input! The minimum number must be smaller than the max. Please enter a range of numbers you would like to guess between!"
   } else if (newMin === newMax) {
-    console.log("min equals max");
+    // console.log("min equals max");
     rangeFeedback.innerText = "invalid input! The minimum and maximum can not be equal. Please enter a range of numbers you would like to guess between!"
   } else {
-    console.log('working')
+    // console.log('working')
     changeMin();
     changeMax();
     randomNum();
     hideRangeInputs();
     displayGuessArea();
     displayRange();
+    rangeButton.disabled = true;
   }
 }
 
 function changeMin() {
   min = parseInt(minInput.value);
-  console.log('new min is ' + min);
+  // console.log('new min is ' + min);
   return min;
 }
 
 function changeMax() {
   max = parseInt(maxInput.value);
-  console.log('new max is ' + max);
+  // console.log('new max is ' + max);
   return max;
 }
 
@@ -145,13 +148,12 @@ function resetRange() {
   max = 100;
   document.getElementById('minInput').value = '';
   document.getElementById('maxInput').value = '';
-  console.log('min ' + min + ' max ' + max);
+  //console.log('min ' + min + ' max ' + max);
 }
-
 
 function getGuess() {
   var guess = parseInt(guessInput.value);
-  console.log(guess);
+  // console.log(guess);
   feedback1.innerText = 'Your last guess was';
   guessOutput.innerText = guess;
 }
@@ -167,7 +169,6 @@ function reset() {
   clear();
   disableButtons();
   hideGuessArea();
-  // setFocus();
 }
 
 function disableButtons() {
@@ -177,8 +178,6 @@ function disableButtons() {
   resetButton.style.backgroundColor = '#D0D2D3';
   guessButton.disabled = true;
   guessButton.style.backgroundColor = '#D0D2D3';
-  rangeButton.disabled = true;
-  rangeButton.style.backgroundColor = '#D0D2D3';
 }
 
 function enableButtons() {
@@ -188,12 +187,9 @@ function enableButtons() {
   resetButton.style.backgroundColor = '#929497';
   guessButton.disabled = false;
   guessButton.style.backgroundColor = '#929497';
-  rangeButton.disabled = false;
-  rangeButton.style.backgroundColor = '#929497';
 }
 
 function invalidInput() {
-  console.log('Please enter a number between 1 and 100!');
   feedback1.innerText = 'Stop being difficult!!!! Follow directions for once!';
   feedback2.innerText = 'Please enter a number between ' + min + ' and ' + max;
   guessOutput.innerText = '';
@@ -226,7 +222,7 @@ function displayGuessArea () {
 }
 
 function hidePlayAgainButton () {
-  playAgainButton.style.display ='none';
+  playAgainButton.style.display = 'none';
 }
 
 function showResetButton () {
@@ -234,7 +230,7 @@ function showResetButton () {
 }
 
 function playAgain () {
-  console.log("the new min and max are: " + min + " and " + max);
+  // console.log("the new min and max are: " + min + " and " + max);
   randomNum();
   clear();
   displayRange();
