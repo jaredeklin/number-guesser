@@ -1,6 +1,8 @@
 
 var min = 1;
 var max = 100;
+var minInput = document.getElementById('minInput');
+var maxInput = document.getElementById('maxInput');
 var randomNumber = randomNum();
 var guessInput = document.getElementById('numberInput');
 var guessButton = document.querySelector('.guessButton');
@@ -8,6 +10,7 @@ var clearButton = document.querySelector('.clearButton');
 var resetButton = document.querySelector('.resetButton');
 var allButtons = document.querySelector('button');
 var rangeButton = document.querySelector('.rangeButton');
+var rangeFeedback = document.querySelector('.rangeFeedback');
 var feedback1 = document.querySelector('.feedback1');
 var guessOutput = document.querySelector('.guessOutput');
 var feedback2 = document.querySelector('.feedback2');
@@ -19,57 +22,78 @@ disableButtons();
 displayRange();
 hideGuessArea();
 hidePlayAgainButton();
-// setFocus();
 
-rangeButton.addEventListener('click', function(e){
+
+rangeButton.addEventListener('click', function(e) {
   e.preventDefault();
-  changeMin();
-  changeMax();
-  displayRange();
-  randomNum();
-  hideRangeInputs();
-  displayGuessArea();
+  checkRange();
+  disableButtons();
 });
 
-guessButton.addEventListener('click', function(e){
+guessButton.addEventListener('click', function(e) {
   e.preventDefault();
   getGuess();
   enableButtons();
   check();
 });
 
-
-clearButton.addEventListener('click', function(e){
+clearButton.addEventListener('click', function(e) {
   e.preventDefault();
   clear();
+  disableButtons();
 });
 
-resetButton.addEventListener('click', function(){
+resetButton.addEventListener('click', function() {
   reset();
   resetRange();
   displayRangeInputs();
+  disableButtons();
 });
 
-function randomNum(){
+playAgainButton.addEventListener('click', function(e) {
+  e.preventDefault();
+  playAgain();
+  hidePlayAgainButton();
+  guessButton.style.visibility = 'visible';
+  clearButton.style.visibility = 'visible';
+})
+
+minInput.addEventListener('keyup', function() {
+  enableButtons();
+})
+
+guessInput.addEventListener('keyup', function() {
+  enableButtons();
+})
+
+function randomNum() {
   randomNumber = Math.floor((Math.random() * (max - min) + min));
   console.log('the random # is ' + randomNumber);
   return randomNumber;
 }
 
-function compare(randomNumber, guessInput){
+function compare(randomNumber, guessInput) {
   if (guessInput < randomNumber){
     console.log('That is too low');
-    document.querySelector('.feedback2').innerText = 'That is too low';
+    feedback2.innerText = 'That is too low';
   } else if (guessInput > randomNumber){
     console.log('That is too high');
-    document.querySelector('.feedback2').innerText = 'That is too high';
+    feedback2.innerText = 'That is too high';
   } else {
     console.log('BOOM!');
-    document.querySelector('.feedback2').innerText = 'BOOM!';
+    min = (min - 10);
+    max = (max + 10);
+    feedback1.innerText = 'Level up!!!!';
+    feedback2.innerText = 'Your new range is between ' + min + ' and ' + max;
+    playAgainButton.style.display = "inline-block";
+    resetButton.style.display = 'none';
+    // guessInput.style.visibility = 'hidden';
+    guessButton.style.visibility = 'hidden';
+    clearButton.style.visibility = 'hidden';
   }
 }
 
-function check(){
+function check() {
   var guess = parseInt(guessInput.value);
   if (isNaN(guess) === true){ 
     console.log('input is invalid');
@@ -81,21 +105,42 @@ function check(){
   }
 }
 
-function changeMin(){
-  min = document.querySelector('#minInput');
-  min = parseInt(min.value);
+function checkRange() {
+  var newMin = parseInt(minInput.value);
+  var newMax = parseInt(maxInput.value);
+  if (isNaN(newMin) === true || isNaN(newMax) === true) {
+    console.log('input is invalid');
+    rangeFeedback.innerText = "invalid input! Please enter a range of numbers you would like to guess between!"
+  } else if (newMin > newMax) {
+    console.log("min > max");
+    rangeFeedback.innerText = "invalid input! The minimum number must be smaller than the max. Please enter a range of numbers you would like to guess between!"
+  } else if (newMin === newMax) {
+    console.log("min equals max");
+    rangeFeedback.innerText = "invalid input! The minimum and maximum can not be equal. Please enter a range of numbers you would like to guess between!"
+  } else {
+    console.log('working')
+    changeMin();
+    changeMax();
+    randomNum();
+    hideRangeInputs();
+    displayGuessArea();
+    displayRange();
+  }
+}
+
+function changeMin() {
+  min = parseInt(minInput.value);
   console.log('new min is ' + min);
   return min;
 }
 
-function changeMax(){
-  max = document.querySelector('#maxInput');
-  max = parseInt(max.value);
+function changeMax() {
+  max = parseInt(maxInput.value);
   console.log('new max is ' + max);
   return max;
 }
 
-function resetRange(){
+function resetRange() {
   min = 1;
   max = 100;
   document.getElementById('minInput').value = '';
@@ -130,7 +175,10 @@ function disableButtons() {
   clearButton.style.backgroundColor = '#D0D2D3';
   resetButton.disabled = true;
   resetButton.style.backgroundColor = '#D0D2D3';
-
+  guessButton.disabled = true;
+  guessButton.style.backgroundColor = '#D0D2D3';
+  rangeButton.disabled = true;
+  rangeButton.style.backgroundColor = '#D0D2D3';
 }
 
 function enableButtons() {
@@ -138,6 +186,10 @@ function enableButtons() {
   clearButton.style.backgroundColor = '#929497';
   resetButton.disabled = false;
   resetButton.style.backgroundColor = '#929497';
+  guessButton.disabled = false;
+  guessButton.style.backgroundColor = '#929497';
+  rangeButton.disabled = false;
+  rangeButton.style.backgroundColor = '#929497';
 }
 
 function invalidInput() {
@@ -175,4 +227,17 @@ function displayGuessArea () {
 
 function hidePlayAgainButton () {
   playAgainButton.style.display ='none';
+}
+
+function showResetButton () {
+  resetButton.style.display = 'block';
+}
+
+function playAgain () {
+  console.log("the new min and max are: " + min + " and " + max);
+  randomNum();
+  clear();
+  displayRange();
+  disableButtons();
+  resetButton.style.display = 'inline-block';
 }
